@@ -38,9 +38,9 @@ optional parameters :
 
 The options can be :
 
-    -h, --host : specify the host
+    -h, --host : specifies the host
 
-    -p, --port : specify the port
+    -p, --port : specifies the port
 
     -u, --user USER : specifies the user
 
