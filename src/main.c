@@ -9,18 +9,20 @@
 
 int main(int argc, const char *argv[])
 {
-    int c,
+    int c, l = 0,
         opt_index;
 
-    char *  host = "";
-    char *  port = "";
-    char *  user = "";
+    char host[256];
+    char port[256];
+    char user[256];
     unsigned int login = 0;
 
     if (argc == 1) {
         printf ("Not enough arguments provided.\n\n");
         usage();
     }
+
+    host[0] = '\0';
 
     static struct option opts[] = {
         {"host",    required_argument,  0, 'h'},
@@ -44,23 +46,24 @@ int main(int argc, const char *argv[])
             case 'p':
                 printf ("Port %s\n", optarg);
                 // TODO: Verify that optarg is a valid port (is a number)
+                snprintf(port,256,"%s",optarg);
                 break;
             case 'h':
                 printf ("Host %s\n", optarg);
+                snprintf(host,256,"%s",optarg);
                 break;
         }
     }
 
-    if (strcmp(host, "")) {
+    if (host[0] == '\0') {
         printf ("No host provided.\n\n");
         usage();
         return EXIT_SUCCESS;
     }
 
-    switch (tnc(host, port, user, login)) {
-        case (TNCE_ERROR):
-            return EXIT_FAILURE;
-        case (TNCE_SUCCESS):
-            return EXIT_SUCCESS;
+    if (tnc(host, port, user, login) == TNCE_SUCCESS) {
+        return EXIT_SUCCESS;
+    } else {
+        return EXIT_FAILURE;
     }
 }
